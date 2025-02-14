@@ -1,7 +1,6 @@
 import time
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 CITY_DATA = {'chicago': 'chicago.csv',
              'new york city': 'new_york_city.csv',
@@ -131,49 +130,15 @@ def user_stats(df, city):
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
-
-def plot_popular_times(df, city):
-    df['hour'] = df['Start Time'].dt.hour
-    pop_hour = df['hour'].mode()[0]
-    plt.hist(df['hour'], bins=24, range=(0, 24))
-    plt.axvline(pop_hour, color='k', linestyle='dashed', linewidth=1)
-    plt.title(f'Trips by Hour in {city.title()}')
-    plt.xlabel('Hour of the Day')
-    plt.ylabel('Number of Trips')
-    plt.grid(True)
-    plt.show(block=False)
-    plt.pause(6)
-    plt.close()
-
-    BIN_RESPONSE_LIST = ['yes', 'no']
-    rdata = ''
-    # counter variable is initialized as a tag to ensure only details from
-    # a particular point is displayed
-    counter = 0
-    while rdata not in BIN_RESPONSE_LIST:
-        print("\nDo you wish to view the raw data?")
-        print("\nAccepted responses:\nYes or yes\nNo or no")
-        rdata = input().lower()
-        # the raw data from the df is displayed if user opts for it
-        if rdata == "yes":
-            print(df.head())
-        elif rdata not in BIN_RESPONSE_LIST:
-            print("\nPlease check your input.")
-            print("Input does not seem to match any of the accepted responses.")
-            print("\nRestarting...\n")
-
-    # Extra while loop here to ask user if they want to continue viewing data
-    while rdata == 'yes':
-        print("Do you wish to view more raw data?")
-        counter += 5
-        rdata = input().lower()
-        # If user opts for it, this displays next 5 rows of data
-        if rdata == "yes":
-            print(df[counter:counter + 5])
-        elif rdata != "yes":
-            break
-
-    print('-' * 80)
+    
+def display_data(df):
+    index=0
+    user_input=input('would you like to display 5 rows of raw data? ').lower()
+    while user_input in ['yes','y','yep','yea'] and index+5 < df.shape[0]:
+        print(df.iloc[index:index+5])
+        index += 5
+        user_input = input('would you like to display more 5 rows of raw data? ').lower()
+        
 def main():
     while True:
         city, month, day = get_filters()
@@ -183,7 +148,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df, city)
-        plot_popular_times(df, city)
+        display_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n').strip().lower()
         if restart != 'yes':
