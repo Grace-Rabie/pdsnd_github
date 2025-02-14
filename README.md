@@ -10,13 +10,13 @@ The program takes user input for the city (e.g. Chicago), month for which the us
 
 Upon receiving the user input, it goes ahead and asks the user if they want to view the raw data (5 rows of data initially) or not. Following the input received, the program prints the following details:
 
-Most popular month
-Most popular day
-Most popular hour
-Most popular start station
-Most popular end station
+Most popular MONTH
+Most popular DAY
+Most popular HOUR
+Most popular START station
+Most popular END station
 Most popular combination of start and end stations
-Total trip duration
+Total TRIP duration
 Average trip duration
 Types of users by number
 Types of users by gender (if available)
